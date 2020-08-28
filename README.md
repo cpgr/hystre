@@ -1,6 +1,6 @@
 hystre
-=====
+===
+(Hydrogen storage in reservoirs)
 
-"Fork hystre" to create a new MOOSE-based application.
-
-For more information see: [http://mooseframework.org/create-an-app/](http://mooseframework.org/create-an-app/)
+[MOOSE](https://www.mooseframework.com) application for modelling underground storage of hydrogen in saline
+aquifers using the [Porous Flow module](https://www.mooseframework.org/modules/porous_flow).
