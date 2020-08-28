@@ -1,0 +1,61 @@
+//* This file is part of the MOOSE framework
+//* https://www.mooseframework.org
+//*
+//* All rights reserved, see COPYRIGHT for full restrictions
+//* https://github.com/idaholab/moose/blob/master/COPYRIGHT
+//*
+//* Licensed under LGPL 2.1, please see LICENSE for details
+//* https://www.gnu.org/licenses/lgpl-2.1.html
+#include "hystreTestApp.h"
+#include "hystreApp.h"
+#include "Moose.h"
+#include "AppFactory.h"
+#include "MooseSyntax.h"
+
+InputParameters
+hystreTestApp::validParams()
+{
+  InputParameters params = hystreApp::validParams();
+  return params;
+}
+
+hystreTestApp::hystreTestApp(InputParameters parameters) : MooseApp(parameters)
+{
+  hystreTestApp::registerAll(
+      _factory, _action_factory, _syntax, getParam<bool>("allow_test_objects"));
+}
+
+hystreTestApp::~hystreTestApp() {}
+
+void
+hystreTestApp::registerAll(Factory & f, ActionFactory & af, Syntax & s, bool use_test_objs)
+{
+  hystreApp::registerAll(f, af, s);
+  if (use_test_objs)
+  {
+    Registry::registerObjectsTo(f, {"hystreTestApp"});
+    Registry::registerActionsTo(af, {"hystreTestApp"});
+  }
+}
+
+void
+hystreTestApp::registerApps()
+{
+  registerApp(hystreApp);
+  registerApp(hystreTestApp);
+}
+
+/***************************************************************************************************
+ *********************** Dynamic Library Entry Points - DO NOT MODIFY ******************************
+ **************************************************************************************************/
+// External entry point for dynamic application loading
+extern "C" void
+hystreTestApp__registerAll(Factory & f, ActionFactory & af, Syntax & s)
+{
+  hystreTestApp::registerAll(f, af, s);
+}
+extern "C" void
+hystreTestApp__registerApps()
+{
+  hystreTestApp::registerApps();
+}
