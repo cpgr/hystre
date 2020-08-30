@@ -4,4 +4,9 @@
     input = 'h2brine.i'
     exodiff = 'h2brine_out.e'
   []
+  [h2brine2]
+    type = 'Exodiff'
+    input = 'h2brine2.i'
+    exodiff = 'h2brine2_out.e'
+  []
 []
