@@ -1,0 +1,7 @@
+[Tests]
+  [h2brine]
+    type = 'Exodiff'
+    input = 'h2brine.i'
+    exodiff = 'h2brine_out.e'
+  []
+[]
