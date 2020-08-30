@@ -257,7 +257,7 @@
   [temperature]
     type = PorousFlowTemperature
   []
-  [brineco2]
+  [brineh2]
     type = PorousFlowFluidState
     gas_porepressure = pgas
     z = z
