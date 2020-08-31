@@ -262,7 +262,7 @@ PorousFlowBrineH2::gasProperties(const DualReal & pressure,
   gas.viscosity = H2_viscosity;
   gas.enthalpy = H2_enthalpy;
 
-  mooseAssert(gas.density.value() > 0.0, "Gas density must be greater than zero");
+  // mooseAssert(gas.density.value() > 0.0, "Gas density must be greater than zero");
   gas.internal_energy = gas.enthalpy - pressure / gas.density;
 }
 
@@ -272,6 +272,9 @@ PorousFlowBrineH2::liquidProperties(const DualReal & pressure,
                                     const DualReal & Xnacl,
                                     std::vector<FluidStateProperties> & fsp) const
 {
+  if (temperature.value() < 0.0 || pressure.value() < 0.0)
+    throw MooseException("Inputs outside the range");
+
   FluidStateProperties & liquid = fsp[_aqueous_phase_number];
 
   // The liquid density includes the density increase due to dissolved H2
@@ -303,7 +306,7 @@ PorousFlowBrineH2::liquidProperties(const DualReal & pressure,
   liquid.viscosity = liquid_viscosity;
   liquid.enthalpy = liquid_enthalpy;
 
-  mooseAssert(liquid.density.value() > 0.0, "Liquid density must be greater than zero");
+  // mooseAssert(liquid.density.value() > 0.0, "Liquid density must be greater than zero");
   liquid.internal_energy = liquid.enthalpy - pressure / liquid.density;
 }
 
@@ -513,7 +516,7 @@ PorousFlowBrineH2::activityCoefficient(const DualReal & temperature, const DualR
 DualReal
 PorousFlowBrineH2::yH2O(const DualReal & pressure, const DualReal & temperature) const
 {
-  mooseAssert(pressure > 0.0, "PorousFlowBrineH2::yH2O(): pressure must be greater than zero");
+  // mooseAssert(pressure > 0.0, "PorousFlowBrineH2::yH2O(): pressure must be greater than zero");
 
   return _H2O_fp.vaporPressure(temperature) / pressure;
 }

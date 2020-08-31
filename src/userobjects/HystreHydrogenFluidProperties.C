@@ -12,7 +12,7 @@
 #include "MathUtils.h"
 #include "libmesh/utility.h"
 
-registerMooseObject("FluidPropertiesApp", HystreHydrogenFluidProperties);
+registerMooseObject("hystreApp", HystreHydrogenFluidProperties);
 
 InputParameters
 HystreHydrogenFluidProperties::validParams()
