@@ -4,6 +4,9 @@
 #include "ModulesApp.h"
 #include "MooseSyntax.h"
 
+// App revision
+#include "HystreRevision.h"
+
 InputParameters
 hystreApp::validParams()
 {

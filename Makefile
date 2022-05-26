@@ -51,7 +51,7 @@ include $(MOOSE_DIR)/modules/modules.mk
 APPLICATION_DIR    := $(CURDIR)
 APPLICATION_NAME   := hystre
 BUILD_EXEC         := yes
-GEN_REVISION       := no
+GEN_REVISION       := yes
 include            $(FRAMEWORK_DIR)/app.mk
 
 ###############################################################################
