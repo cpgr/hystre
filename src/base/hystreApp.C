@@ -11,15 +11,16 @@ InputParameters
 hystreApp::validParams()
 {
   InputParameters params = MooseApp::validParams();
-
-  // Do not use legacy DirichletBC, that is, set DirichletBC default for preset = true
-  params.set<bool>("use_legacy_dirichlet_bc") = false;
-
+  params.set<bool>("use_legacy_material_output") = false;
   return params;
 }
 
 hystreApp::hystreApp(InputParameters parameters) : MooseApp(parameters)
 {
+  // Print the git revision information to the console
+  _console << std::left << "App Information: \n";
+  _console << std::setw(25) << "Hystre version: " << HYSTRE_REVISION << "\n" << std::endl;
+
   hystreApp::registerAll(_factory, _action_factory, _syntax);
 }
 

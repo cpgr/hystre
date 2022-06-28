@@ -51,8 +51,8 @@ FVPorousFlowAdvectiveFlux::computeQpResidual()
 
   for (unsigned int p = 0; p < _num_phases; ++p)
   {
-    ADReal p_elem = _pressure[_qp][p];
-    ADReal p_neighbor = _pressure_neighbor[_qp][p];
+    const ADReal p_elem = _pressure[_qp][p];
+    const ADReal p_neighbor = _pressure_neighbor[_qp][p];
 
     const ADRealVectorValue gradp =
         (p_elem - p_neighbor) * _face_info->eCF() / _face_info->dCFMag();
