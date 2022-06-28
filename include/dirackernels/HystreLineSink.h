@@ -36,4 +36,6 @@ protected:
   const unsigned int _fluid_component;
   const bool _multiply_by_mass_frac;
   const ADMaterialProperty<std::vector<std::vector<Real>>> & _mass_fractions;
+  const bool _multiply_by_relperm;
+  const ADMaterialProperty<std::vector<Real>> & _relperm;
 };

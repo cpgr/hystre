@@ -27,6 +27,7 @@ HystreLineSink::validParams()
   params.addParam<unsigned int>(
       "mass_fraction_component", 0, "The index corresponding to a fluid component");
   params.addParam<bool>("multiply_by_mass_frac", false, "Multiply flux by mass fraction");
+  params.addParam<bool>("multiply_by_relperm", false, "Multiply flux by relative permeability");
   params.addClassDescription("Approximates a line sink in the mesh by a sequence of weighted Dirac "
                              "points whose positions are read from a file");
   return params;
@@ -41,7 +42,9 @@ HystreLineSink::HystreLineSink(const InputParameters & parameters)
     _phase(getParam<unsigned int>("fluid_phase")),
     _fluid_component(getParam<unsigned int>("mass_fraction_component")),
     _multiply_by_mass_frac(getParam<bool>("multiply_by_mass_frac")),
-    _mass_fractions(getADMaterialProperty<std::vector<std::vector<Real>>>("mass_fractions"))
+    _mass_fractions(getADMaterialProperty<std::vector<std::vector<Real>>>("mass_fractions")),
+    _multiply_by_relperm(getParam<bool>("multiply_by_relperm")),
+    _relperm(getADMaterialProperty<std::vector<Real>>("relperm"))
 {
   // zero the outflow mass
   _total_outflow_mass.zero();
@@ -81,6 +84,9 @@ HystreLineSink::computeQpResidual()
 
   if (_multiply_by_mass_frac)
     outflow *= _mass_fractions[_qp][_phase][_fluid_component].value();
+
+  if (_multiply_by_relperm)
+    outflow *= _relperm[_qp][_phase].value();
 
   _total_outflow_mass.add(outflow * _dt);
 
