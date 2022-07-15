@@ -25,6 +25,7 @@ protected:
   virtual void initQpStatefulProperties() override;
   virtual void computeQpProperties() override;
 
+  DualReal massFractionToMoleFraction(const DualReal & Y, Real M1, Real M2) const;
   /// Size material property vectors and initialise with zeros
   void setMaterialVectorSize() const;
 

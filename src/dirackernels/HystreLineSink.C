@@ -77,7 +77,7 @@ HystreLineSink::computeQpResidual()
     // contribution from half-segment "ahead of" this point, or we only have one point
     outflow += _half_seg_len[current_dirac_ptid];
 
-  outflow *= _flux;
+  outflow *= _flux * _weight->at(current_dirac_ptid);
 
   if (outflow == 0.0)
     return 0.0;

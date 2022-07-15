@@ -82,11 +82,25 @@ FVBasicH2CH4Brine::thermophysicalProperties()
   _saturation[_qp][1] = _gas_saturation[_qp];
   _pressure[_qp][1] = _liquid_porepressure[_qp] + _pc.capillaryPressure(1.0 - _gas_saturation[_qp]);
 
-  _fluid_density[_qp][1] = (1.0 - _YCH4[_qp]) * _h2_fp.rho_from_p_T(_pressure[_qp][1], Tk) +
-                           _YCH4[_qp] * _ch4_fp.rho_from_p_T(_pressure[_qp][1], Tk);
+  // _fluid_density[_qp][1] =
+  //     std::pow((1.0 - _YCH4[_qp]), 2) * _h2_fp.rho_from_p_T(_pressure[_qp][1], Tk) +
+  //     std::pow(_YCH4[_qp], 2) * _ch4_fp.rho_from_p_T(_pressure[_qp][1], Tk);
 
-  _fluid_viscosity[_qp][1] = (1.0 - _YCH4[_qp]) * _h2_fp.mu_from_p_T(_pressure[_qp][1], Tk) +
-                             _YCH4[_qp] * _ch4_fp.mu_from_p_T(_pressure[_qp][1], Tk);
+  // _fluid_density[_qp][1] = std::exp(
+  //     std::pow((1.0 - _YCH4[_qp]), 2) * std::log(_h2_fp.rho_from_p_T(_pressure[_qp][1], Tk)) +
+  //     _YCH4[_qp] * std::log(_ch4_fp.rho_from_p_T(_pressure[_qp][1], Tk)));
+
+  const auto ych4 = massFractionToMoleFraction(_YCH4[_qp], _ch4_fp.molarMass(), _h2_fp.molarMass());
+
+  _fluid_density[_qp][1] = (1.0 - ych4) * _h2_fp.rho_from_p_T(_pressure[_qp][1], Tk) +
+                           ych4 * _ch4_fp.rho_from_p_T(_pressure[_qp][1], Tk);
+
+  _fluid_viscosity[_qp][1] =
+      std::exp((1.0 - ych4) * std::log(_h2_fp.mu_from_p_T(_pressure[_qp][1], Tk)) +
+               ych4 * std::log(_ch4_fp.mu_from_p_T(_pressure[_qp][1], Tk)));
+
+  // _fluid_viscosity[_qp][1] = (1.0 - _YCH4[_qp]) * _h2_fp.mu_from_p_T(_pressure[_qp][1], Tk) +
+  //                            _YCH4[_qp] * _ch4_fp.mu_from_p_T(_pressure[_qp][1], Tk);
 
   _mass_frac[_qp][1][1] = 1.0 - _YCH4[_qp]; // H2 in gas phase
   _mass_frac[_qp][1][2] = _YCH4[_qp];       // CH4 in gas phase
@@ -115,4 +129,10 @@ FVBasicH2CH4Brine::setMaterialVectorSize() const
 
   for (unsigned int ph = 0; ph < _num_phases; ++ph)
     _mass_frac[_qp][ph].resize(_num_components);
+}
+
+DualReal
+FVBasicH2CH4Brine::massFractionToMoleFraction(const DualReal & Y, Real M1, Real M2) const
+{
+  return (Y / M1) / (Y / M1 + (1.0 - Y) / M2);
 }
