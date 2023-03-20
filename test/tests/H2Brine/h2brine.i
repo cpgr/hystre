@@ -242,14 +242,12 @@
   []
 []
 
-[Modules]
-  [FluidProperties]
-    [h2]
-      type = HystreHydrogenFluidProperties
-    []
-    [brine]
-      type = BrineFluidProperties
-    []
+[FluidProperties]
+  [h2]
+    type = HystreHydrogenFluidProperties
+  []
+  [brine]
+    type = BrineFluidProperties
   []
 []
 

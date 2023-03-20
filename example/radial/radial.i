@@ -312,28 +312,26 @@ xnacl = 0.1
   []
 []
 
-[Modules]
-  [FluidProperties]
-    [h2]
-      type = HystreHydrogenFluidProperties
-    []
-    [h2tab]
-      type = HystreTabulatedFluidProperties
-      fp = h2
-      save_file = false
-    []
-    [water]
-      type = Water97FluidProperties
-    []
-    [watertab]
-      type = TabulatedFluidProperties
-      fp = water
-      save_file = false
-    []
-    [brine]
-      type = BrineFluidProperties
-      water_fp = watertab
-    []
+[FluidProperties]
+  [h2]
+    type = HystreHydrogenFluidProperties
+  []
+  [h2tab]
+    type = HystreTabulatedFluidProperties
+    fp = h2
+    save_file = false
+  []
+  [water]
+    type = Water97FluidProperties
+  []
+  [watertab]
+    type = TabulatedFluidProperties
+    fp = water
+    save_file = false
+  []
+  [brine]
+    type = BrineFluidProperties
+    water_fp = watertab
   []
 []
 
